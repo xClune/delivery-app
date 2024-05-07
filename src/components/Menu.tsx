@@ -19,7 +19,7 @@ const Menu = () => {
   //   create temporary condition for design
   const user = false;
   return (
-    <div>
+    <div className="">
       {!open ? (
         <Bars3Icon
           className="w-8 cursor-pointer"

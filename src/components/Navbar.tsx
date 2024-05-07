@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import Menu from "@/components/Menu";
+import Menu from "./Menu";
 import { inter } from "@/fonts";
 import CartIcon from "./CartIcon";
 
@@ -16,7 +16,7 @@ const Navbar = () => {
       </div>
       {/* Logo */}
       <Link href={"/"} className="text-2xl font-bold">
-        KŌV
+        KŌV PIZZA
       </Link>
       {/* Right Links */}
       <div className="hidden md:flex gap-4 font-bold ">
