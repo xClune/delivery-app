@@ -1,5 +1,15 @@
-import Image from "next/image";
+import React from "react";
+import Slider from "./components/Slider";
+import Featured from "./components/Featured";
+import Offer from "./components/Offer";
 
 export default function Home() {
-  return <main>Hello World</main>;
+  return (
+    <main>
+      Hello World
+      <Slider />
+      <Featured />
+      <Offer />
+    </main>
+  );
 }
