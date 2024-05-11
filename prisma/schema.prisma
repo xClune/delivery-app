@@ -29,8 +29,8 @@ model Product {
   createdAt  DateTime @default(now())
   title      String
   desc       String
-  price      Decimal
   img        String?
+  price      Decimal
   isFeatured Boolean  @default(false)
   options    Json[]
   category   Category @relation(fields: [catSlug], references: [slug])
@@ -44,4 +44,5 @@ model Order {
   products  Json[]
   status    String
   intent_id String?  @unique
+  userEmail String
 }
