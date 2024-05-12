@@ -1,7 +1,7 @@
 "use client";
 
 import { OrderType } from "../../types/types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
@@ -23,6 +23,30 @@ const OrdersPage = () => {
   });
 
   const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) => {
+      return fetch(`http://localhost:3000/api/orders/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(status),
+      });
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+    },
+  });
+
+  const handleUpdate = (e: React.FormEvent<HTMLFormElement>, id: string) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const input = form.elements[0] as HTMLInputElement;
+    const status = input.value;
+
+    mutation.mutate({ id, status });
+  };
 
   if (isLoading || status === "loading") return "Loading...";
 
@@ -50,7 +74,7 @@ const OrdersPage = () => {
               </td>
               <td className="py-6 px-1">{item.price}</td>
               <td className="hidden md:block py-6 px-1">
-                {/* {item.products[0].title} */}
+                {item.products[0].title}
               </td>
               {session?.user.isAdmin ? (
                 <td>
@@ -62,8 +86,11 @@ const OrdersPage = () => {
                       placeholder={item.status}
                       className="p-2 ring-1 ring-emerald-100 rounded-md"
                     />
-                    <button className="bg-emerald-400 p-2 rounded-full">
-                      <PencilIcon width={12} fill="white" />
+                    <button
+                      type="submit"
+                      className="bg-emerald-400 p-2 rounded-full"
+                    >
+                      <PencilIcon width={15} fill="white" />
                     </button>
                   </form>
                 </td>
