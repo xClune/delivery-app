@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Menu from "./Menu";
-import { inter } from "@/fonts";
 import CartIcon from "./CartIcon";
+import UserLinks from "./UserLinks";
 
 const Navbar = () => {
-  // temporary condition for design
-  const user = false;
   return (
     <div className="flex flex-row w-full justify-between items-center px-3 pt-1 border-b-2 border-emerald-500 text-emerald-600 md:h-14">
       {/* Left Links */}
@@ -20,11 +18,7 @@ const Navbar = () => {
       </Link>
       {/* Right Links */}
       <div className="hidden md:flex gap-4 font-bold ">
-        {!user ? (
-          <Link href={"/login"}>Login</Link>
-        ) : (
-          <Link href={"/orders"}>Orders</Link>
-        )}
+        <UserLinks />
         <CartIcon />
       </div>
       {/* Mobile Menu */}
