@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "react-toastify";
 
 const OrdersPage = () => {
   const { data: session, status } = useSession();
@@ -46,6 +47,7 @@ const OrdersPage = () => {
     const status = input.value;
 
     mutation.mutate({ id, status });
+    toast.success("Order status updated");
   };
 
   if (isLoading || status === "loading") return "Loading...";
