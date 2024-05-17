@@ -2,10 +2,16 @@
 
 import Image from "next/image";
 import React from "react";
+import { useEffect } from "react";
 import { useCartStore } from "@/../utils/store";
 
 const CartPage = () => {
-  const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
+  const { products, totalItems, totalPrice, removeFromCart, resetCart } =
+    useCartStore();
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
 
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-emerald-500 lg:flex-row">
@@ -18,7 +24,9 @@ const CartPage = () => {
               <Image src={item.img} alt="" width={100} height={100} />
             )}
             <div className="">
-              <h1 className="uppercase text-xl font-bold">{item.title}</h1>
+              <h1 className="uppercase text-xl font-bold">
+                {item.title} x {item.quantity}
+              </h1>
               <span>{item.optionsTitle}</span>
             </div>
             <h2 className="font-bold">${item.price}</h2>
@@ -52,9 +60,15 @@ const CartPage = () => {
           <span className="">TOTAL(INCL. VAT)</span>
           <span className="font-bold">${totalPrice}</span>
         </div>
-        <button className="bg-emerald-500 text-white p-3 rounded-md w-1/2 self-end">
+        <button className="bg-emerald-500 text-white p-3 rounded-md w-1/2 self-center">
           CHECKOUT
         </button>
+        <span
+          className="text-xs text-center cursor-pointer"
+          onClick={resetCart}
+        >
+          clear cart
+        </span>
       </div>
     </div>
   );

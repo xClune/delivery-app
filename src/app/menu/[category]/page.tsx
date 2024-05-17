@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { ProductType } from "../../../types/types";
 
+// function to retrieve the products from the API (products by category)
 const getData = async (category: string) => {
   //
   const res = await fetch(
@@ -24,9 +25,11 @@ type Props = {
 };
 
 const CategoryPage = async ({ params }: Props) => {
+  // get the products from the API
   const products: ProductType[] = await getData(params.category);
   return (
     <div className="flex flex-wrap text-red-500">
+      {/* map retrieved products to display each */}
       {products.map((item) => (
         <Link
           className="w-full h-[60vh] border-r-2 border-b-2 border-red-500 sm:w-1/2 lg:w-1/3 p-4 flex flex-col justify-between group odd:bg-fuchsia-50"

@@ -2,6 +2,7 @@ import { MenuType } from "@/../types/types";
 import Link from "next/link";
 import React from "react";
 
+// function to retrieve the categories from the API
 const getData = async () => {
   const res = await fetch("http://localhost:3000/api/categories", {
     cache: "no-store",
@@ -15,11 +16,14 @@ const getData = async () => {
 };
 
 const MenuPage = async () => {
+  // get the categories from the API
   const menu: MenuType = await getData();
   return (
     <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col md:flex-row items-center">
+      {/* map through the categories and display them */}
       {menu.map((category) => (
         <Link
+          // link to the category page
           href={`/menu/${category.slug}`}
           key={category.id}
           className="w-full h-1/3 bg-cover p-8 md:h-1/2"

@@ -5,18 +5,16 @@ import { ProductType } from "../types/types";
 import { useCartStore } from "../utils/store";
 import { toast } from "react-toastify";
 
-type Props = {
-  price: number;
-  id: string;
-  options?: { title: string; additionalPrice: number }[];
-};
-
 const Price = ({ product }: { product: ProductType }) => {
   const [total, setTotal] = useState(product.price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
 
   const { addToCart } = useCartStore();
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
 
   useEffect(() => {
     if (product.options?.length) {
@@ -28,13 +26,14 @@ const Price = ({ product }: { product: ProductType }) => {
   }, [quantity, selected, product]);
 
   const handleCart = () => {
+    console.log(typeof product.price, quantity);
     addToCart({
       id: product.id,
       title: product.title,
       img: product.img,
-      price: product.price,
+      price: total,
       ...(product.options?.length && {
-        optionTitle: product.options?.[selected].title,
+        optionTitle: product.options[selected].title,
       }),
       quantity: quantity,
     });
@@ -52,8 +51,8 @@ const Price = ({ product }: { product: ProductType }) => {
               key={option.title}
               className="min-w-[6rem] p-2 ring-1 ring-emerald-400 rounded-md"
               style={{
-                background: selected === index ? "rgb(248 113 113)" : "white",
-                color: selected === index ? "white" : "red",
+                background: selected === index ? "green" : "white",
+                color: selected === index ? "white" : "green",
               }}
               onClick={() => setSelected(index)}
             >

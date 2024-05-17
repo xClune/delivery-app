@@ -8,6 +8,7 @@ export const GET = async (req:NextRequest, { params }: { params: { id: string } 
     const { id } = params;
     
     try {
+        // search product model for product with id
         const product = await prisma.product.findUnique({
             where: {
                 id:id
