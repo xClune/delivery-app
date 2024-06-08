@@ -26,7 +26,6 @@ const Price = ({ product }: { product: ProductType }) => {
   }, [quantity, selected, product]);
 
   const handleCart = () => {
-    console.log(typeof product.price, quantity);
     addToCart({
       id: product.id,
       title: product.title,

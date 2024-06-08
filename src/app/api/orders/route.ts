@@ -36,3 +36,35 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
+
+// CREATE NEW ORDER
+export const POST = async (req:NextRequest) => {
+  const session = await getAuthSession();
+
+  if (session) {
+    try {
+      const body = await req.json();
+      // check session has user
+      if (session.user) {
+        // use the data from the body to create a new order
+        const order = await prisma.order.create({
+          data: body,
+        });
+        // return the order as a response
+        return new NextResponse(JSON.stringify(order), { status: 201 });
+      }
+    } catch (err) {
+      console.log(err);
+      return new NextResponse(
+        JSON.stringify({ message: "Something went wrong!" }),
+        { status: 500 }
+      );
+    }
+  } else {
+    return new NextResponse(
+      JSON.stringify({ message: "You are not authenticated!" }),
+      { status: 401 }
+    );
+  }
+}
+
